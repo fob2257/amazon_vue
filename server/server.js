@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+const dotenv = require("dotenv-flow");
 
 dotenv.config();
 
