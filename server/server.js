@@ -3,8 +3,18 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
-const port = process.env.PORT || 3000;
+dotenv.config();
+
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING, (error) => {
+  if (error) {
+    return console.error(error);
+  }
+  console.log("database connected");
+});
+
 const app = express();
 
 app.use([
@@ -18,6 +28,8 @@ app.use([
 app.get("/", (req, res) => {
   return res.json("hi");
 });
+
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`server listening on port ${port}`);
