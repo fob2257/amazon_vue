@@ -6,6 +6,8 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv-flow");
 
+const routes = require("./routes");
+
 dotenv.config();
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING, (error) => {
@@ -25,9 +27,7 @@ app.use([
   bodyParser.urlencoded({ extended: false }),
 ]);
 
-app.get("/", (req, res) => {
-  return res.json("hi");
-});
+app.use("/api", routes);
 
 const port = process.env.PORT || 3000;
 

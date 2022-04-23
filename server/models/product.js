@@ -15,7 +15,10 @@ const ProductSchema = new Schema(
       type: String,
       required: true,
     },
-    title: {
+    description: {
+      type: String,
+    },
+    photo: {
       type: String,
     },
     price: {
