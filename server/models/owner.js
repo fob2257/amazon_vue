@@ -14,12 +14,8 @@ const OwnerSchema = new Schema(
       type: String,
     },
   },
-  {
-    timestamps: {
-      createdAt: "created_at",
-      updatedAt: "updated_at",
-    },
-  }
+  { timestamps: true }
+
 );
 
 module.exports = mongoose.model("Owner", OwnerSchema);

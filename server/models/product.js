@@ -31,12 +31,8 @@ const ProductSchema = new Schema(
       type: [Number],
     },
   },
-  {
-    timestamps: {
-      createdAt: "created_at",
-      updatedAt: "updated_at",
-    },
-  }
+  { timestamps: true }
+
 );
 
 module.exports = mongoose.model("Product", ProductSchema);
