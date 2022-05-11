@@ -17,7 +17,7 @@ router.get("/owners", async (req, res) => {
 
 router.post("/owners", uploadPhoto.single("photo"), async (req, res) => {
   const { name, about } = req.body;
-  const { publicUrl: photo } = req.file;
+  const photo = req?.file?.publicUrl;
 
   try {
     const owner = new Owner({ name, about, photo });
