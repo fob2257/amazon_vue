@@ -6,9 +6,9 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv-flow");
 
-const routes = require("./routes");
-
 dotenv.config();
+
+const routes = require("./routes");
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING, (error) => {
   if (error) {
