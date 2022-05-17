@@ -10,7 +10,9 @@
           <a href="/product" class="a-button-buy-again" style="margin-right: 10px">
             Add a new product
           </a>
-          <a href="#" class="a-button-history margin-right-10">Add a new category</a>
+          <a href="/category" class="a-button-history margin-right-10">
+            Add a new category
+          </a>
           <a href="#" class="a-button-history margin-right-10">Add a new owner</a>
         </div>
       </div>
