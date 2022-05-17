@@ -5,7 +5,7 @@ const uploadPhoto = require("../middlewares/uploadPhoto");
 
 router.get("/products", async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().populate(["owner", "category"]);
 
     res.json({ success: true, products });
   } catch (err) {
