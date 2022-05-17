@@ -33,9 +33,7 @@
                   <i class="fal fa-plus"></i>
                   <input type="file" @change="handlePhotoInput" />
                 </label>
-                <div v-if="photo">
-                  <p>{{ photo.name }}</p>
-                </div>
+                <p v-if="photo">{{ photo.name }}</p>
               </div>
             </div>
 
