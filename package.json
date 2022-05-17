@@ -2,9 +2,10 @@
   "name": "amazon_vue",
   "version": "1.0.0",
   "scripts": {
-    "start": "concurrently \"npm run start:server\" \"PORT=8000 npm run start:admin\"",
+    "start": "concurrently \"npm run start:server\" \"PORT=8000 npm run start:admin\" \"PORT=9000 npm run start:client\"",
     "start:server": "npm run start --prefix ./server",
-    "start:admin": "npm run dev --prefix ./admin"
+    "start:admin": "npm run dev --prefix ./admin",
+    "start:client": "npm run dev --prefix ./client"
   },
   "dependencies": {
     "concurrently": "^7.2.0"
