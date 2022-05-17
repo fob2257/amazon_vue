@@ -63,7 +63,12 @@
               >
                 Update
               </nuxt-link>
-              <a href="#" class="a-button-history margin-right-10">Delete</a>
+              <button
+                class="a-button-history margin-right-10"
+                @click="handleDeleteProduct(product._id, idx)"
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>
@@ -84,6 +89,19 @@ export default {
     } catch (error) {
       console.error(error);
     }
+  },
+  methods: {
+    async handleDeleteProduct(id, idx) {
+      try {
+        const res = await this.$axios.$delete(`http://localhost:3000/api/products/${id}`);
+
+        if (res.success) {
+          this.products.splice(idx, 1);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 };
 </script>
