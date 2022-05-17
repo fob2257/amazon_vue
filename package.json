@@ -1,0 +1,13 @@
+{
+  "name": "amazon_vue",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm run start:server\" \"PORT=8000 npm run start:admin\"",
+    "start:server": "npm run start --prefix ./server",
+    "start:admin": "npm run dev --prefix ./admin"
+  },
+  "dependencies": {
+    "concurrently": "^7.2.0"
+  },
+  "devDependencies": {}
+}
