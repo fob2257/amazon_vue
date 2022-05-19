@@ -50,7 +50,7 @@ router.post("/products", uploadPhoto.single("photo"), async (req, res) => {
 router.get("/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findById(id);
+    const product = await Product.findById(id).populate(["owner", "category"]);
 
     res.json({ success: true, product });
   } catch (err) {
