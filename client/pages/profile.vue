@@ -6,6 +6,8 @@
         <div class="col-sm-6">
           <div class="a-spacing-top-medium" />
           <h2>Profile page</h2>
+          <a href="#" @click="onLogout">Logout</a>
+
           <form>
             <div class="a-spacing-top-medium">
               <label>Name</label>
@@ -87,6 +89,9 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    async onLogout() {
+      await this.$auth.logout();
     },
   },
 };
