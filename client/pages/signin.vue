@@ -13,16 +13,7 @@
           <form class="mt-4">
             <div class="a-box a-spacing-extra-large">
               <div class="a-box-inner">
-                <h1 class="a-spacing-small">Create account</h1>
-                <div class="a-row a-spacing-base">
-                  <label for="ap_customer_name" class="a-form-label">Name</label>
-                  <input
-                    type="text"
-                    id="ap_customer_name"
-                    class="a-input-text form-control auth-autofocus auth-required-field auth-contact-verification-request-info"
-                    v-model="name"
-                  />
-                </div>
+                <h1 class="a-spacing-small">Sign In</h1>
                 <div class="a-row a-spacing-base">
                   <label for="ap_customer_name" class="a-form-label">Email</label>
                   <input
@@ -50,7 +41,7 @@
                 <div class="a-row a-spacing-extra-large mb-4">
                   <span class="a-button-primary" @click="handleSubmit">
                     <span class="a-button-inner">
-                      <span class="a-button-text"> Create your Amazon account </span>
+                      <span class="a-button-text"> Continue </span>
                     </span>
                   </span>
                   <div class="a-row a-spacing-top-medium a-size-small">
@@ -64,8 +55,8 @@
                 <hr />
                 <div class="a-row">
                   <b>
-                    Already have an account?
-                    <nuxt-link to="/signin" class="a-link-emphasis">Sign In</nuxt-link>
+                    Don't have an account?
+                    <nuxt-link to="/signup" class="a-link-emphasis">Register</nuxt-link>
                   </b>
                 </div>
               </div>
@@ -80,11 +71,11 @@
 <script>
 export default {
   layout: 'none',
+  //   https://auth.nuxtjs.org/guide/middleware
   middleware: 'auth',
   auth: 'guest',
   data() {
     return {
-      name: '',
       email: '',
       password: '',
     };
@@ -93,20 +84,12 @@ export default {
     async handleSubmit(e) {
       e.preventDefault();
 
+      const { email, password } = this;
+
       try {
-        const { name, email, password } = this;
+        await this.$auth.loginWith('local', { data: { email, password } });
 
-        const res = await this.$axios.$post('/api/auth/signup', {
-          name,
-          email,
-          password,
-        });
-
-        if (res.success) {
-          await this.$auth.loginWith('local', { data: { email, password } });
-
-          this.$router.push('/');
-        }
+        this.$router.push('/');
       } catch (error) {
         console.error(error);
       }
