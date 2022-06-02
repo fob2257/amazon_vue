@@ -59,6 +59,9 @@ export default {
         },
       },
     },
+    redirect: {
+      login: '/signin',
+    },
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

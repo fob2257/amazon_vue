@@ -5,9 +5,9 @@
         <div class="row">
           <div class="col-sm-2">
             <div class="logo-area">
-              <a href="#">
+              <nuxt-link to="/">
                 <img src="/img/logo.png" alt="Logo" class="img-fluid" />
-              </a>
+              </nuxt-link>
             </div>
           </div>
 
@@ -71,23 +71,23 @@
 
               <span class="icp-nav-link-border" />
 
-              <template v-if="$auth.$state.loggedIn">
+              <template v-if="$auth.loggedIn">
                 <nuxt-link
-                  to="/register"
+                  to="/profile"
                   class="nav-a nav-a-2"
                   id="nav-link-accountList"
                   tabindex="0"
                 >
                   <span class="nav-line-1">Hello,</span>
                   <span class="nav-line-2">
-                      {{ $auth.$state.user.name }}
+                    {{ $auth.$state.user.name }}
                   </span>
                 </nuxt-link>
               </template>
 
               <template v-else>
                 <nuxt-link
-                  to="/register"
+                  to="/signin"
                   class="nav-a nav-a-2"
                   id="nav-link-accountList"
                   tabindex="0"

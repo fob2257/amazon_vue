@@ -58,6 +58,34 @@ router.get("/auth", verifyToken, async (req, res) => {
   }
 });
 
+router.put("/auth", verifyToken, async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.decoded.email });
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const { name, email, password } = req.body;
+
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (password) user.password = password;
+
+    await user.save();
+
+    user.password = undefined;
+
+    res.json({ success: true, user });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 router.post("/auth/signin", async (req, res) => {
   const { email, password } = req.body;
 
