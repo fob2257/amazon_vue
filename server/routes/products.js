@@ -5,7 +5,11 @@ const uploadPhoto = require("../middlewares/uploadPhoto");
 
 router.get("/products", async (req, res) => {
   try {
-    const products = await Product.find().populate(["owner", "category"]);
+    const products = await Product.find().populate([
+      "owner",
+      "category",
+      "rating",
+    ]);
 
     res.json({ success: true, products });
   } catch (err) {
@@ -50,7 +54,11 @@ router.post("/products", uploadPhoto.single("photo"), async (req, res) => {
 router.get("/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findById(id).populate(["owner", "category"]);
+    const product = await Product.findById(id).populate([
+      "owner",
+      "category",
+      "rating",
+    ]);
 
     res.json({ success: true, product });
   } catch (err) {
