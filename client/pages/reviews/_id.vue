@@ -87,6 +87,7 @@
                     style="width: 100%"
                     v-if="$auth.loggedIn"
                     :value="$auth.user.name"
+                    disabled
                   />
                   <input type="text" class="a-input-text" style="width: 100%" v-else />
                 </div>
@@ -120,6 +121,7 @@
 import StarRating from 'vue-star-rating';
 
 export default {
+  middleware: 'auth',
   components: {
     StarRating,
   },
