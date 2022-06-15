@@ -369,20 +369,30 @@
             </div>
           </div>
         </div>
+
+        <ReviewSection :product="product" :reviews="reviews" />
       </div>
     </div>
   </main>
 </template>
 
 <script>
+import ReviewSection from '@/components/ReviewSection.vue';
+
 export default {
+  components: {
+    ReviewSection,
+  },
   async asyncData({ $axios, params }) {
     const { id } = params;
 
     try {
-      const { product } = await $axios.$get(`http://localhost:3000/api/products/${id}`);
+      const [{ product }, { reviews }] = await Promise.all([
+        $axios.$get(`/api/products/${id}`),
+        $axios.$get(`/api/reviews`, { params: new URLSearchParams([['productId', id]]) }),
+      ]);
 
-      return { product };
+      return { product, reviews };
     } catch (error) {
       console.error(error);
     }

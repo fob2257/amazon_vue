@@ -9,10 +9,9 @@ router.get("/reviews", async (req, res) => {
   const { productId } = req.query;
 
   try {
-    const reviews = await Review.find({ product: productId }).populate([
-      "product",
-      "user",
-    ]);
+    const reviews = await Review.find({ product: productId })
+      .populate("product")
+      .populate("user", "-password");
 
     res.json({ success: true, reviews });
   } catch (err) {
@@ -28,7 +27,7 @@ router.post(
   async (req, res) => {
     const { headline, body, rating, productId: product } = req.body;
     const photo = req?.file?.publicUrl;
-    const { id: user } = req.decoded;
+    const user = req?.decoded?.id;
 
     try {
       const review = new Review({
@@ -40,10 +39,12 @@ router.post(
         user,
       });
 
+      await Product.updateOne({ $push: { rating: review.id } });
+
       await review.save();
-      await Product.findByIdAndUpdate(product, {
-        $push: { rating: review.id },
-      });
+      // await Product.findByIdAndUpdate(product, {
+      //   $push: { rating: review.id },
+      // });
     } catch (err) {
       console.error(err);
 
