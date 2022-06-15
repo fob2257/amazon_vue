@@ -39,11 +39,11 @@ router.post(
         user,
       });
 
-      await Product.updateOne({ $push: { rating: review.id } });
+      await Product.updateOne({ $push: { reviews: review.id } });
 
       await review.save();
       // await Product.findByIdAndUpdate(product, {
-      //   $push: { rating: review.id },
+      //   $push: { reviews: review.id },
       // });
     } catch (err) {
       console.error(err);

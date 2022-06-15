@@ -8,7 +8,7 @@ router.get("/products", async (req, res) => {
     const products = await Product.find().populate([
       "owner",
       "category",
-      "rating",
+      "reviews",
     ]);
 
     res.json({ success: true, products });
@@ -57,7 +57,7 @@ router.get("/products/:id", async (req, res) => {
     const product = await Product.findById(id).populate([
       "owner",
       "category",
-      "rating",
+      "reviews",
     ]);
 
     res.json({ success: true, product });
