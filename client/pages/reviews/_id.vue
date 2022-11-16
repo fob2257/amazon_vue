@@ -40,10 +40,13 @@
               </div>
               <div class="a-row a-spacing-top-medium">
                 <!-- Choose a Photo -->
-                <label class="choosefile-button">
-                  <i class="fal fa-plus"></i>
+                <template v-if="photo">
+                  <img :src="photoURL" style="max-width: 300px" />
+                  <p>{{ photo.name }}</p>
+                </template>
+                <label v-else class="choosefile-button">
+                  <i class="fal fa-plus" />
                   <input type="file" @change="handlePhotoInput" />
-                  <p v-if="photo">{{ photo.name }}</p>
                 </label>
               </div>
               <div class="a-spacing-top-large"></div>
@@ -142,6 +145,7 @@ export default {
       body: '',
       rating: 0,
       photo: undefined,
+      photoURL: undefined,
     };
   },
   methods: {
@@ -149,6 +153,7 @@ export default {
       const [file] = e.target.files;
 
       this.photo = file;
+      this.photoURL = URL.createObjectURL(file);
     },
     async handleSubmit(e) {
       e.preventDefault();
@@ -162,7 +167,9 @@ export default {
         data.append('headline', headline);
         data.append('body', body);
         data.append('rating', rating);
-        data.append('photo', photo, photo.name);
+        if (photo) {
+          data.append('photo', photo, photo.name);
+        }
 
         const res = await this.$axios.$post('/api/reviews', data);
 
