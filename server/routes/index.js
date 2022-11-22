@@ -4,4 +4,5 @@ module.exports = [
   require("./owners"),
   require("./auth"),
   require("./reviews"),
+  require("./addresses"),
 ];
