@@ -1,7 +1,6 @@
 const router = require("express").Router();
 
 const Review = require("../models/review");
-const Product = require("../models/product");
 const verifyToken = require("../middlewares/verifyToken");
 const uploadPhoto = require("../middlewares/uploadPhoto");
 
