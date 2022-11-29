@@ -48,9 +48,14 @@
                   <!-- Country / Region -->
                   <div class="a-spacing-top-medium">
                     <label style="margin-bottom: 0px">Country/Region</label>
-                    <select class="a-select-option">
-                      <option value>--</option>
-                      <option></option>
+                    <select class="a-select-option" v-model="country">
+                      <option
+                        v-for="country in countries"
+                        :value="country.name"
+                        :key="country.alpha2Code"
+                      >
+                        {{ country.name }}
+                      </option>
                     </select>
                   </div>
                   <!-- Full name -->
@@ -183,7 +188,7 @@
                     </span>
                   </div>
                   <div class="a-spacing-top-large">
-                    <span class="a-button-register">
+                    <span class="a-button-register" @click="handleAddAddress">
                       <span class="a-button-inner">
                         <span class="a-button-text">Add address</span>
                       </span>
@@ -212,15 +217,24 @@ export default {
       streetAddress2: '',
       city: '',
       state: '',
-      country: '',
+      country: 'United States of America',
       zipCode: '',
       phoneNumber: '',
       deliveryInstructions: '',
       securityCode: '',
     };
   },
+  async asyncData({ $axios }) {
+    try {
+      const { countries } = await $axios.$get('/api/countries');
+
+      return { countries };
+    } catch (error) {
+      console.error(error);
+    }
+  },
   methods: {
-    async onAddress() {
+    async handleAddAddress() {
       try {
         const {
           fullName,
