@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const axios = require("axios");
 
 const Address = require("../models/address");
 const verifyToken = require("../middlewares/verifyToken");
@@ -130,6 +131,20 @@ router.delete("/addresses/:id", verifyToken, async (req, res) => {
     const address = await Address.findOneAndDelete({ id, user });
 
     res.json({ success: true, address });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+router.get("/countries", async (req, res) => {
+  try {
+    const { data: countries } = await axios.get(
+      "https://restcountries.com/v2/all?fields=alpha2Code,name"
+    );
+
+    res.json({ success: true, countries });
   } catch (err) {
     console.error(err);
 
