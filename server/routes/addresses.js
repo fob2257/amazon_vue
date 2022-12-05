@@ -2,6 +2,7 @@ const router = require("express").Router();
 const axios = require("axios");
 
 const Address = require("../models/address");
+const User = require("../models/user");
 const verifyToken = require("../middlewares/verifyToken");
 
 router.get("/addresses", verifyToken, async (req, res) => {
@@ -10,7 +11,7 @@ router.get("/addresses", verifyToken, async (req, res) => {
   try {
     const addresses = await Address.find({ user }).populate("user", [
       "-password",
-      "-addresses",
+      "-address",
     ]);
 
     res.json({ success: true, addresses });
@@ -65,7 +66,7 @@ router.get("/addresses/:id", verifyToken, async (req, res) => {
     const user = req?.decoded?.id;
     const address = await Address.findOne({ id, user }).populate("user", [
       "-password",
-      "-addresses",
+      "-address",
     ]);
 
     res.json({ success: true, address });
@@ -117,6 +118,32 @@ router.put("/addresses/:id", verifyToken, async (req, res) => {
     );
 
     res.json({ success: true, address });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+router.put("/addresses/set/default", verifyToken, async (req, res) => {
+  try {
+    const { address } = req.body;
+    const user = req?.decoded?.id;
+
+    const userAddress = await Address.findOne({ _id: address, user });
+
+    if (!userAddress) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Address not found" });
+    }
+
+    await User.findByIdAndUpdate(user, { $set: { address } }, { upsert: true });
+
+    res.json({
+      success: true,
+      message: `Address: ${userAddress.fullName}, has been set as default!`,
+    });
   } catch (err) {
     console.error(err);
 
