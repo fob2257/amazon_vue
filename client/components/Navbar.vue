@@ -25,7 +25,14 @@
                 <div class="nav-sprite" id="nav-packard-glow-loc-icon" />
                 <div id="glow-ingress-block">
                   <span class="nav-line-1" id="glow-ingress-line1">Deliver to</span>
-                  <span class="nav-line-2" id="glow-ingress-line2">California</span>
+                  <template v-if="$auth.loggedIn">
+                    <span class="nav-line-2" id="glow-ingress-line2">
+                      {{ $auth.$state.user.address.city }}
+                    </span>
+                  </template>
+                  <span v-else class="nav-line-2" id="glow-ingress-line2">
+                    California
+                  </span>
                 </div>
               </nuxt-link>
             </div>
