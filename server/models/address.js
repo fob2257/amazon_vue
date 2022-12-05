@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const User = require("./user");
 
 const { Schema } = mongoose;
 
@@ -21,21 +20,5 @@ const AddressSchema = new Schema(
   },
   { timestamps: true }
 );
-
-AddressSchema.pre("save", async function (next) {
-  const address = this;
-
-  if (address.isNew) {
-    try {
-      await User.findByIdAndUpdate(address.user, {
-        $push: { addresses: address.id },
-      });
-    } catch (error) {
-      return next(error);
-    }
-  }
-
-  next();
-});
 
 module.exports = mongoose.model("Address", AddressSchema);

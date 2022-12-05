@@ -18,12 +18,10 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    addresses: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Address",
-      },
-    ],
+    address: {
+      type: Schema.Types.ObjectId,
+      ref: "Address",
+    },
   },
   { timestamps: true }
 );
