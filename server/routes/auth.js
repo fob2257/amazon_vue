@@ -39,16 +39,18 @@ router.post("/auth/signup", async (req, res) => {
 });
 
 router.get("/auth", verifyToken, async (req, res) => {
+  const { email } = req.decoded;
+
   try {
-    const user = await User.findOne({ email: req.decoded.email });
+    const user = await User.findOne({ email })
+      .populate(["address"])
+      .select(["-password"]);
 
     if (!user) {
       return res
         .status(400)
         .json({ success: false, message: "User not found" });
     }
-
-    user.password = undefined;
 
     res.json({ success: true, user });
   } catch (err) {
@@ -60,7 +62,7 @@ router.get("/auth", verifyToken, async (req, res) => {
 
 router.put("/auth", verifyToken, async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.decoded.email });
+    let user = await User.findOne({ email: req.decoded.email });
 
     if (!user) {
       return res
@@ -75,8 +77,9 @@ router.put("/auth", verifyToken, async (req, res) => {
     if (password) user.password = password;
 
     await user.save();
-
-    user.password = undefined;
+    user = await User.findById(user.id)
+      .populate(["address"])
+      .select(["-password"]);
 
     res.json({ success: true, user });
   } catch (err) {
