@@ -76,7 +76,6 @@
                           </div>
                         </div>
                       </div>
-                      <!-- Delete Button -->
                       <div class="edit-address-desktop-link">
                         <nuxt-link
                           :to="`/address/${address._id}`"
@@ -85,6 +84,7 @@
                           Edit
                         </nuxt-link>
                         &nbsp; | &nbsp;
+                        <!-- Delete Button -->
                         <a href="#" @click="handleDeleteAddress(address._id, idx)">
                           Delete
                         </a>

@@ -106,7 +106,7 @@ router.put("/addresses/:id", verifyToken, async (req, res) => {
     };
 
     Object.keys(updateObj).forEach((key) => {
-      if (updateObj[key] === undefined) {
+      if (!updateObj[key]) {
         delete updateObj[key];
       }
     });
