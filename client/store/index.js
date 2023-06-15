@@ -37,4 +37,13 @@ export const getters = {
   getCartLength(state) {
     return state.cartLength;
   },
+  getCart(state) {
+    return state.cart;
+  },
+  getCartTotalPrice(state) {
+    return state.cart.reduce(
+      (prevVal, product) => prevVal + product.price * product.quantity,
+      0
+    );
+  },
 };
