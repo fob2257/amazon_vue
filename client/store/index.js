@@ -32,3 +32,9 @@ export const mutations = {
     state.cart[idx].quantity += quantity;
   },
 };
+
+export const getters = {
+  getCartLength(state) {
+    return state.cartLength;
+  },
+};
