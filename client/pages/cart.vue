@@ -17,7 +17,11 @@
                   </div>
                 </div>
                 <!-- List of the item -->
-                <div class="sc-list-body" v-for="product in getCart" :key="product._id">
+                <div
+                  class="sc-list-body"
+                  v-for="(product, idx) in getCart"
+                  :key="product._id"
+                >
                   <div class="sc-list-item-border">
                     <div class="a-row a-spacing-top-base a-spacing-base">
                       <div class="row">
@@ -68,14 +72,24 @@
                             </label>
                           </div>
                           <div class="sc-action-links">
-                            <select>
-                              <option>Qty: &nbsp;1</option>
+                            <select @change="updateProductQuantity($event, idx)">
+                              <option
+                                v-for="i in product.stockQuantity"
+                                :value="i"
+                                :key="i"
+                                :selected="i === product.quantity"
+                              >
+                                Qty: &nbsp;{{ i }}
+                              </option>
                             </select>
                             &nbsp;&nbsp;
                             <span>|</span>
                             &nbsp;
                             <!-- Delete button -->
-                            <span class="a-size-small">
+                            <span
+                              class="a-size-small"
+                              @click="removeProductFromCart(product)"
+                            >
                               <a href="#">Delete</a>
                             </span>
                             &nbsp; &nbsp;
@@ -216,7 +230,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import SearchBar from '@/components/SearchBar.vue';
 
 export default {
@@ -225,10 +239,17 @@ export default {
   },
   computed: { ...mapGetters(['getCartLength', 'getCart', 'getCartTotalPrice']) },
   methods: {
+    ...mapActions(['removeProductFromCart']),
     getSubtotalLabel() {
       return `Subtotal (${this.getCartLength} item${
         this.getCartLength === 1 ? '' : 's'
       })`;
+    },
+    updateProductQuantity(event, idx) {
+      this.$store.commit('changeProductQty', {
+        idx,
+        quantity: parseInt(event.target.value),
+      });
     },
   },
 };

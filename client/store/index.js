@@ -16,6 +16,10 @@ export const actions = {
 
     commit('updateCartLength');
   },
+  removeProductFromCart({ commit }, product) {
+    commit('filterProductFromCart', product);
+    commit('updateCartLength');
+  },
 };
 
 export const mutations = {
@@ -30,6 +34,12 @@ export const mutations = {
   },
   incrementProductQty(state, { idx, quantity }) {
     state.cart[idx].quantity += quantity;
+  },
+  changeProductQty(state, { idx, quantity }) {
+    state.cart[idx].quantity = quantity;
+  },
+  filterProductFromCart(state, product) {
+    state.cart = state.cart.filter(({ _id }) => _id !== product._id);
   },
 };
 

@@ -251,11 +251,9 @@
                   <div class="row">
                     <div class="col-sm-5 col-5">
                       <select v-model="quantity">
-                        <option :value="1">Qty: &nbsp; 1</option>
-                        <option :value="2">Qty: &nbsp; 2</option>
-                        <option :value="3">Qty: &nbsp; 3</option>
-                        <option :value="4">Qty: &nbsp; 4</option>
-                        <option :value="5">Qty: &nbsp; 5</option>
+                        <option v-for="i in product.stockQuantity" :value="i" :key="i">
+                          Qty: &nbsp;{{ i }}
+                        </option>
                       </select>
                     </div>
                   </div>
