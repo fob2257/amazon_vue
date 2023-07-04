@@ -2,6 +2,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'client',
+    script: [{ src: 'https://js.stripe.com/v3/', async: true }],
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -20,6 +21,12 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [{ src: '~/plugins/localStorage.js', mode: 'client' }],
+
+  // https://v2.nuxt.com/docs/configuration-glossary/configuration-runtime-config/
+  // https://stackoverflow.com/questions/67703133/how-to-use-env-variables-in-nuxt-2-or-3
+  publicRuntimeConfig: {
+    stripeKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

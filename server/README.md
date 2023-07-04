@@ -5,6 +5,7 @@ PORT=3000
 MONGODB_CONNECTION_STRING=mongodb+srv://<user>:<password>@<database>
 FIREBASE_BUCKETNAME=<storage folder path>
 JWT_PRIVATE_KEY=5NiFNjccZ7FUqfQJhwaJ
+STRIPE_SECRET_KEY=pk_test_v5NiFNjccZ7FUqfQJhwaJ
 ```
 
 _`.env ` file content_
