@@ -1,6 +1,7 @@
 export const state = () => ({
   cart: [],
   cartLength: 0,
+  shipment: { estimated: '', price: 0 },
 });
 
 export const actions = {
@@ -40,6 +41,9 @@ export const mutations = {
   },
   filterProductFromCart(state, product) {
     state.cart = state.cart.filter(({ _id }) => _id !== product._id);
+  },
+  setShipment(state, shipment) {
+    state.shipment = { ...shipment };
   },
 };
 

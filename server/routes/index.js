@@ -5,4 +5,5 @@ module.exports = [
   require("./auth"),
   require("./reviews"),
   require("./addresses"),
+  require("./payment"),
 ];
