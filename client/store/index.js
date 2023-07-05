@@ -45,6 +45,11 @@ export const mutations = {
   setShipment(state, shipment) {
     state.shipment = { ...shipment };
   },
+  clearCart(state) {
+    state.cart = [];
+    state.cartLength = 0;
+    state.shipment = { estimated: '', price: 0 };
+  },
 };
 
 export const getters = {
@@ -59,5 +64,8 @@ export const getters = {
       (prevVal, product) => prevVal + product.price * product.quantity,
       0
     );
+  },
+  getShipment(state) {
+    return state.shipment;
   },
 };

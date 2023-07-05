@@ -34,11 +34,11 @@
             <div class="a-section">
               <h2>Make a payment</h2>
               <div class="a-section a-spacing-none a-spacing-top-small">
-                <b>The total price is $999999</b>
+                <b>The total price is ${{ getCartTotalPrice + getShipment.price }}</b>
               </div>
 
               <!-- Error message  -->
-              <div class="a-section a-spacing-none a-spacing-top-small">
+              <div class="a-section a-spacing-none a-spacing-top-small" v-if="error">
                 <b>Error</b>
               </div>
               <form action="#" method="post">
@@ -67,7 +67,7 @@
                   <div class="a-spacing-top-large">
                     <span class="a-button-register">
                       <span class="a-button-inner">
-                        <span class="a-button-text">Purchase</span>
+                        <span class="a-button-text" @click="onPurchase">Purchase</span>
                       </span>
                     </span>
                   </div>
@@ -85,7 +85,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
+  middleware: 'auth',
   data() {
     return {
       error: '',
@@ -93,11 +96,34 @@ export default {
       card: null,
     };
   },
+  computed: { ...mapGetters(['getCart', 'getCartTotalPrice', 'getShipment']) },
   mounted() {
     this.stripe = Stripe(this.$config.stripeKey);
     const elements = this.stripe.elements();
     this.card = elements.create('card');
     this.card.mount(this.$refs.card);
+  },
+  methods: {
+    async onPurchase() {
+      try {
+        const { token } = await this.stripe.createToken(this.card);
+
+        const res = await this.$axios.$post('/api/payment', {
+          token,
+          cart: this.getCart,
+          totalPrice: this.getCartTotalPrice + this.getShipment.price,
+          estimatedDelivery: this.getShipment.estimated,
+        });
+
+        if (res.success) {
+          this.$store.commit('clearCart');
+          this.$router.push('/');
+        }
+      } catch (error) {
+        console.error(error);
+        this.error = error;
+      }
+    },
   },
 };
 </script>

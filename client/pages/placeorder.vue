@@ -399,6 +399,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   layout: 'none',
+  middleware: 'auth',
   async asyncData({ $axios, store }) {
     try {
       const [{ shipmentOptions }, { shipment }] = await Promise.all([
