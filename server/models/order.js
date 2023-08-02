@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const deepPopulate = require("mongoose-deep-populate")(mongoose);
+
 const { Schema } = mongoose;
 
 const OrderSchema = new Schema(
@@ -15,8 +17,12 @@ const OrderSchema = new Schema(
       },
     ],
     estimatedDelivery: { type: String },
+    shipmentPrice: { type: Number },
+    totalPrice: { type: Number },
   },
   { timestamps: true }
 );
+
+OrderSchema.plugin(deepPopulate);
 
 module.exports = mongoose.model("Order", OrderSchema);

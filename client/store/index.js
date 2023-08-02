@@ -65,6 +65,14 @@ export const getters = {
       0
     );
   },
+  getCartTotalPriceWithShipmentPrice(state) {
+    const totalPrice = state.cart.reduce(
+      (prevVal, product) => prevVal + product.price * product.quantity,
+      0
+    );
+
+    return (totalPrice + state.shipment.price).toFixed(2);
+  },
   getShipment(state) {
     return state.shipment;
   },

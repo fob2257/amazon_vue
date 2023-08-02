@@ -27,16 +27,22 @@
                       <div class="row">
                         <!-- Product's Image -->
                         <div class="col-sm-2 col-2">
-                          <a href="#" class="a-link-normal">
+                          <nuxt-link
+                            :to="`/products/${product._id}`"
+                            class="a-link-normal"
+                          >
                             <img :src="product.photo" class="img-fluid w-100" />
-                          </a>
+                          </nuxt-link>
                         </div>
                         <div class="col-sm-8 col-8">
                           <!-- Product's Title -->
                           <div class="a-spacing-mini">
-                            <a href="#" class="a-link-normal a-size-medium a-text-bold">
+                            <nuxt-link
+                              :to="`/products/${product._id}`"
+                              class="a-link-normal a-size-medium a-text-bold"
+                            >
                               {{ product.title }}
-                            </a>
+                            </nuxt-link>
                             <!-- Product's Owner name -->
                             <span class="a-size-base sc-product-creator">
                               {{ product.owner.name }}
@@ -74,7 +80,7 @@
                           <div class="sc-action-links">
                             <select @change="updateProductQuantity($event, idx)">
                               <option
-                                v-for="i in product.stockQuantity"
+                                v-for="i in product.quantity"
                                 :value="i"
                                 :key="i"
                                 :selected="i === product.quantity"
@@ -155,7 +161,9 @@
                   <div>
                     <span class="a-spacing-small a-button-primary a-button-icon">
                       <span class="a-button-inner">
-                        <a href="#" class="a-button-text">Proceed to checkout</a>
+                        <nuxt-link to="/placeorder" class="a-button-text">
+                          Proceed to checkout
+                        </nuxt-link>
                       </span>
                     </span>
                   </div>

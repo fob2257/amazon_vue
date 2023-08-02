@@ -290,7 +290,7 @@
                       <div class="row">
                         <div class="col-sm-6">Total Before Tax:</div>
                         <div class="col-sm-6 text-right">
-                          USD ${{ getCartTotalPrice + shipment.price }}
+                          USD ${{ getCartTotalPriceWithShipmentPrice }}
                         </div>
                       </div>
                       <div class="row">
@@ -307,7 +307,7 @@
                         <div class="col-sm-6 text-right">
                           <!-- Total Price with Shipping -->
                           <div class="a-color-price a-size-medium a-text-bold">
-                            USD ${{ getCartTotalPrice + shipment.price }}
+                            USD ${{ getCartTotalPriceWithShipmentPrice }}
                           </div>
                         </div>
                       </div>
@@ -415,7 +415,9 @@ export default {
       console.error(error);
     }
   },
-  computed: { ...mapGetters(['getCart', 'getCartTotalPrice']) },
+  computed: {
+    ...mapGetters(['getCart', 'getCartTotalPrice', 'getCartTotalPriceWithShipmentPrice']),
+  },
   methods: {
     async handleDelivery(option) {
       try {

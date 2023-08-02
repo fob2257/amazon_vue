@@ -233,7 +233,12 @@
                   <div class="clearfix">
                     <div class="float-left">
                       <form>
-                        <input type="radio" id="test1" name="radio-group checked" />
+                        <input
+                          :checked="true"
+                          type="radio"
+                          id="test1"
+                          name="radio-group checked"
+                        />
                         <label for="test1">Buy Now</label>
                       </form>
                     </div>
@@ -251,7 +256,13 @@
                   <div class="row">
                     <div class="col-sm-5 col-5">
                       <select v-model="quantity">
-                        <option v-for="i in product.stockQuantity" :value="i" :key="i">
+                        <option
+                          v-for="i in product.stockQuantity <= maxAllowedQuantity
+                            ? product.stockQuantity
+                            : maxAllowedQuantity"
+                          :value="i"
+                          :key="i"
+                        >
                           Qty: &nbsp;{{ i }}
                         </option>
                       </select>
@@ -292,15 +303,17 @@
                   </div>
                   <div class="a-button-stack">
                     <span class="a-spacing-small a-button-primary a-button-icon">
-                      <span class="a-button-inner">
-                        <i class="a-icon a-icon-buynow"></i>
-                        <input
-                          type="submit"
-                          name="submit.add-to-cart"
-                          class="a-button-input"
-                        />
-                        <span class="a-button-text">Buy Now</span>
-                      </span>
+                      <nuxt-link to="/cart">
+                        <span class="a-button-inner">
+                          <i class="a-icon a-icon-buynow"></i>
+                          <input
+                            type="submit"
+                            name="submit.add-to-cart"
+                            class="a-button-input"
+                          />
+                          <span class="a-button-text">Buy Now</span>
+                        </span>
+                      </nuxt-link>
                     </span>
                   </div>
                 </div>
@@ -420,6 +433,7 @@ export default {
   data() {
     return {
       quantity: 1,
+      maxAllowedQuantity: 10,
     };
   },
   methods: { ...mapActions(['addProductToCart']) },

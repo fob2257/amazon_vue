@@ -2,7 +2,7 @@ const router = require("express").Router();
 const moment = require("moment");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-const Order = require("../models/orders");
+const Order = require("../models/order");
 const verifyToken = require("../middlewares/verifyToken");
 
 const SHIPMENT_OPTIONS = {
@@ -30,8 +30,8 @@ router.post("/shipment", (req, res) => {
 
 router.post("/payment", verifyToken, async (req, res) => {
   try {
-    const { email, _id: ownerId } = req.decoded;
-    const { totalPrice, cart, estimatedDelivery } = req.body;
+    const { email, id: ownerId } = req.decoded;
+    const { cart, estimatedDelivery, shipmentPrice, totalPrice } = req.body;
 
     const customer = await stripe.customers.create({ email });
 
@@ -40,7 +40,7 @@ router.post("/payment", verifyToken, async (req, res) => {
     });
 
     const amount = Math.round(totalPrice * 100);
-    const charge = await stripe.charges.create({
+    await stripe.charges.create({
       amount,
       currency: "USD",
       customer: source.customer,
@@ -49,6 +49,8 @@ router.post("/payment", verifyToken, async (req, res) => {
     const order = new Order({
       owner: ownerId,
       estimatedDelivery,
+      shipmentPrice,
+      totalPrice,
     });
 
     for (const product of cart) {
@@ -60,8 +62,6 @@ router.post("/payment", verifyToken, async (req, res) => {
     }
 
     await order.save();
-
-    console.log({ amount, customer, source, charge });
 
     res.json({ success: true, order });
   } catch (err) {

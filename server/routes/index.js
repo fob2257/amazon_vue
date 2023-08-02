@@ -1,9 +1,10 @@
 module.exports = [
-  require("./products"),
-  require("./categories"),
-  require("./owners"),
-  require("./auth"),
-  require("./reviews"),
   require("./addresses"),
+  require("./auth"),
+  require("./categories"),
+  require("./orders"),
+  require("./owners"),
   require("./payment"),
+  require("./products"),
+  require("./reviews"),
 ];

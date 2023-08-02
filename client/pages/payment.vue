@@ -34,7 +34,7 @@
             <div class="a-section">
               <h2>Make a payment</h2>
               <div class="a-section a-spacing-none a-spacing-top-small">
-                <b>The total price is ${{ getCartTotalPrice + getShipment.price }}</b>
+                <b>The total price is ${{ getCartTotalPriceWithShipmentPrice }}</b>
               </div>
 
               <!-- Error message  -->
@@ -96,7 +96,9 @@ export default {
       card: null,
     };
   },
-  computed: { ...mapGetters(['getCart', 'getCartTotalPrice', 'getShipment']) },
+  computed: {
+    ...mapGetters(['getCart', 'getShipment', 'getCartTotalPriceWithShipmentPrice']),
+  },
   mounted() {
     this.stripe = Stripe(this.$config.stripeKey);
     const elements = this.stripe.elements();
@@ -107,12 +109,14 @@ export default {
     async onPurchase() {
       try {
         const { token } = await this.stripe.createToken(this.card);
+        const { price: shipmentPrice, estimated: estimatedDelivery } = this.getShipment;
 
         const res = await this.$axios.$post('/api/payment', {
           token,
           cart: this.getCart,
-          totalPrice: this.getCartTotalPrice + this.getShipment.price,
-          estimatedDelivery: this.getShipment.estimated,
+          totalPrice: this.getCartTotalPriceWithShipmentPrice,
+          shipmentPrice,
+          estimatedDelivery,
         });
 
         if (res.success) {
